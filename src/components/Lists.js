@@ -1,22 +1,8 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import List from "./List";
 
-const List = ({ todoData, setTodoData }) => {
-  const handleCompleteChange = (id) => {
-    let newTodoData = todoData.map((data) => {
-      if (data.id === id) {
-        data.completed = !data.completed;
-      }
-      return data;
-    });
-    setTodoData(newTodoData);
-  };
-
-  const handleClick = (id) => {
-    let newTodoData = todoData.filter((data) => id !== data.id);
-    setTodoData(newTodoData);
-  };
-
+const Lists = ({ todoData, setTodoData }) => {
   const handleEnd = (result) => {
     console.log(result);
     if (!result.destination) return;
@@ -39,29 +25,16 @@ const List = ({ todoData, setTodoData }) => {
                 return (
                   <Draggable key={data.id} draggableId={data.id.toString()} index={index}>
                     {(provided, snapshot) => (
-                      <div
+                      <List
                         key={data.id}
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                        {...provided.dragHandleProps}
-                        className={`${
-                          snapshot.isDragging ? "bg-gray-400" : "bg-gray-100"
-                        } flex items-center justify-between w-full px-4 py-1 my-2 text-gray-600 border rounded`}
-                      >
-                        <div className="items-center">
-                          <input
-                            type="checkbox"
-                            defaultChecked={data.completed}
-                            onChange={() => handleCompleteChange(data.id)}
-                          />
-                          <span className={data.completed ? "line-through" : undefined}>
-                            {data.title}
-                          </span>
-                        </div>
-                        <div className="items-center">
-                          <button onClick={() => handleClick(data.id)}>x</button>
-                        </div>
-                      </div>
+                        id={data.id}
+                        title={data.title}
+                        completed={data.completed}
+                        todoData={todoData}
+                        setTodoData={setTodoData}
+                        provided={provided}
+                        snapshot={snapshot}
+                      />
                     )}
                   </Draggable>
                 );
@@ -75,4 +48,4 @@ const List = ({ todoData, setTodoData }) => {
   );
 };
 
-export default List;
+export default Lists;
