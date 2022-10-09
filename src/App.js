@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
+import Form from "./components/Form";
 import List from "./components/List";
 
 const App = () => {
   const [todoData, setTodoData] = useState([]);
   const [value, setValue] = useState("");
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,20 +21,7 @@ const App = () => {
           <h1>할일 목록</h1>
         </div>
         <List todoData={todoData} setTodoData={setTodoData} />
-
-        <form onSubmit={handleSubmit} style={{ display: "flex" }}>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="value"
-            style={{ flex: "10", padding: "5px" }}
-            placeholder="해야 할 일을 입력하세요."
-            value={value}
-          />
-          <button type="submit" value="입력" className="btn" style={{ flex: "1" }}>
-            입력
-          </button>
-        </form>
+        <Form handleSubmit={handleSubmit} value={value} setValue={setValue} />
       </div>
     </div>
   );
